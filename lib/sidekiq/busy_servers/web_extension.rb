@@ -8,7 +8,7 @@ module Sidekiq
           render(:erb, File.read("#{ROOT}/views/busy_servers.erb"))
         end
 
-        app.post 'busy_servers' do
+        app.post '/busy_servers' do
           if params['identity']
             p = Sidekiq::Process.new('identity' => params['identity'])
             p.quiet! if params['quiet']
