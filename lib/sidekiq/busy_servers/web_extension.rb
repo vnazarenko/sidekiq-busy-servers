@@ -5,6 +5,25 @@ module Sidekiq
 
       def self.registered(app)
         app.get '/busy_servers' do
+          puts '@@@@@@@@@@@@@@@@@@@@@@@@@@@'
+          process_queues = {}
+          @processes = processes
+          @processes.each do |p|
+            p['queues'].each do |p_name|
+              process_queues[p_name] ||= {concurrency: 0, busy: 0}
+              process_queues[p_name][:concurrency] += p['concurrency']
+              process_queues[p_name][:busy] += p['busy']
+            end
+          end
+          puts process_queues.inspect
+          puts '44444444444444444'
+          @queue_data = []
+          Sidekiq::Queue.all.each do |queue|
+            next unless process_queues[queue.name]
+            @queue_data << {name: queue.name, concurrency: process_queues[queue.name][:concurrency], busy: process_queues[queue.name][:busy], paused: queue.paused?}
+          end
+          puts @queue_data.inspect
+
           render(:erb, File.read("#{ROOT}/views/busy_servers.erb"))
         end
 

@@ -1,3 +1,27 @@
+<h3><%= t('Queues') %></h3>
+
+<div class="table_container">
+  <table class="queues table table-hover table-bordered table-striped table-white">
+    <thead>
+      <th><%= t('Queue') %></th>
+      <th><%= t('Total Busy') %></th>
+      <th><%= t('Total concurrency') %></th>
+    </thead>
+    <% @queue_data.each do |queue| %>
+      <tr>
+        <td>
+          <a href="<%= root_path %>queues/<%= CGI.escape(queue[:name]) %>"><%= h queue[:name] %></a>
+          <% if queue[:paused] %>
+            <span class="label label-danger"><%= t('Paused') %></span>
+          <% end %>
+        </td>
+        <td><%= number_with_delimiter(queue[:busy]) %> </td>
+        <td><%= number_with_delimiter(queue[:concurrency]) %> </td>
+      </tr>
+    <% end %>
+  </table>
+</div>
+
 <div class="row header">
   <div class="col-sm-8 pull-left flip">
     <h3><%= t('Processes') %></h3>
@@ -22,8 +46,8 @@
       <th><%= t('Busy') %></th>
       <th>&nbsp;</th>
     </thead>
-    <% lead = processes.leader %>
-    <% processes.each do |process| %>
+    <% lead = @processes.leader %>
+    <% @processes.each do |process| %>
       <tr>
         <td class="box">
           <%= "#{process['hostname']}:#{process['pid']}" %>
