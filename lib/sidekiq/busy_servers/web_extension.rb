@@ -5,7 +5,6 @@ module Sidekiq
 
       def self.registered(app)
         app.get '/busy_servers' do
-          puts '@@@@@@@@@@@@@@@@@@@@@@@@@@@'
           process_queues = {}
           @processes = processes
           @processes.each do |p|
@@ -15,8 +14,6 @@ module Sidekiq
               process_queues[p_name][:busy] += p['busy']
             end
           end
-          puts process_queues.inspect
-          puts '44444444444444444'
           @queue_data = []
           Sidekiq::Queue.all.each do |queue|
             next unless process_queues[queue.name]
