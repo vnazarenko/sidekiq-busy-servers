@@ -17,7 +17,7 @@ module Sidekiq
           @queue_data = []
           Sidekiq::Queue.all.each do |queue|
             next unless process_queues[queue.name]
-            @queue_data << {name: queue.name, concurrency: process_queues[queue.name][:concurrency], busy: process_queues[queue.name][:busy], paused: queue.paused?}
+            @queue_data << {name: queue.name, size: queue.size, concurrency: process_queues[queue.name][:concurrency], busy: process_queues[queue.name][:busy], paused: queue.paused?}
           end
           puts @queue_data.inspect
 

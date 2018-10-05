@@ -3,7 +3,8 @@
 <div class="table_container">
   <table class="queues table table-hover table-bordered table-striped table-white">
     <thead>
-      <th><%= t('Queue') %></th>
+      <th><%= t('Queue Name') %></th>
+      <th><%= t('Queue Size') %></th>
       <th><%= t('Total Busy') %></th>
       <th><%= t('Total concurrency') %></th>
     </thead>
@@ -15,6 +16,7 @@
             <span class="label label-danger"><%= t('Paused') %></span>
           <% end %>
         </td>
+        <td><%= queue[:size] %></td>
         <td><%= number_with_delimiter(queue[:busy]) %> </td>
         <td><%= number_with_delimiter(queue[:concurrency]) %> </td>
       </tr>
