@@ -24,6 +24,28 @@
   </table>
 </div>
 
+<h3><%= t('Versions') %></h3>
+
+<div class="table_container">
+  <table class="queues table table-hover table-bordered table-striped table-white">
+    <thead>
+      <th><%= t('Version Name') %></th>
+      <th><%= t('Servers Count') %></th>
+      <th><%= t('Total Busy') %></th>
+      <th><%= t('Total concurrency') %></th>
+    </thead>
+    <% @versions.each do |queue| %>
+      <tr>
+        <td><%= queue[:name] %></td>
+        <td><%= number_with_delimiter(queue[:processes] / 2) %></td>
+        <td><%= number_with_delimiter(queue[:busy]) %> </td>
+        <td><%= number_with_delimiter(queue[:concurrency]) %> </td>
+      </tr>
+    <% end %>
+  </table>
+</div>
+
+
 <div class="row header">
   <div class="col-sm-8 pull-left flip">
     <h3><%= t('Processes') %></h3>
